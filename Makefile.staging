@@ -1,0 +1,32 @@
+clean:
+	@echo Clean cdk
+	@rm -rf ./cdk.out
+	AWS_PROFILE=ecv \
+	NODE_ENV=staging \
+	AWS_REGION=ap-northeast-1 \
+		npx --no-install cdk context \
+		--clear
+
+live-diff: clean
+	AWS_PROFILE=ecv-ap-northeast-1 \
+	NODE_ENV=staging \
+	AWS_REGION=ap-northeast-1 \
+		npx --no-install cdk diff --all --app="npx ts-node ./bin/live-infra.ts"
+
+live-deploy: clean
+	AWS_PROFILE=ecv-ap-northeast-1 \
+	NODE_ENV=staging \
+	AWS_REGION=ap-northeast-1 \
+		npx --no-install cdk deploy --all --app="npx ts-node ./bin/live-infra.ts"
+
+ssai-diff: clean
+	AWS_PROFILE=ecv-ap-northeast-1 \
+	NODE_ENV=staging \
+	AWS_REGION=ap-northeast-1 \
+		npx --no-install cdk diff --all --app="npx ts-node ./bin/ssai-infra.ts"
+
+ssai-deploy: clean
+	AWS_PROFILE=ecv-ap-northeast-1 \
+	NODE_ENV=staging \
+	AWS_REGION=ap-northeast-1 \
+		npx --no-install cdk deploy --all --app="npx ts-node ./bin/ssai-infra.ts"
